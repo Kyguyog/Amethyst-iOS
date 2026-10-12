@@ -37,9 +37,9 @@ jobs:
 
       - name: Redirect and checkout submodules
         run: |
-          # Override broken/private submodule URLs with public alternatives/mirrors
-          git config submodule.Natives/external/fishhook.url "https://github.com/facebook/fishhook.git"
-          git config submodule.Natives/external/DBNumberedSlider.url "https://github.com/immago/DBNumberedSlider.git"
+          # Update .gitmodules directly so git submodule sync respects the new public URLs
+          git config -f .gitmodules submodule.Natives/external/fishhook.url "https://github.com/facebook/fishhook.git"
+          git config -f .gitmodules submodule.Natives/external/DBNumberedSlider.url "https://github.com/immago/DBNumberedSlider.git"
           
           git submodule sync --recursive
           git submodule update --init --recursive
