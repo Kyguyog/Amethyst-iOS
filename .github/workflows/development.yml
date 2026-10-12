@@ -96,6 +96,11 @@ jobs:
           distribution: 'zulu'
           java-version: '8'
 
+      - name: Register Java 8 for macOS system
+        run: |
+          sudo mkdir -p /Library/Java/JavaVirtualMachines
+          sudo ln -s $JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-8.jdk
+
       - name: Build for ${{ matrix.platform_name }}
         run: |
           export PATH=/opt/homebrew/bin:$PATH
