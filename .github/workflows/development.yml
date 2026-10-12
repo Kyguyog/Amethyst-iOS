@@ -30,10 +30,15 @@ jobs:
           echo "after"
           ls -lah ./
           
-      - name: Checkout repository and submodules
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: false
+
+      - name: Checkout submodules without token interference
+        run: |
+          git config --global --unset-all http.https://github.com/.extraheader || true
+          git submodule update --init --recursive
 
       - name: Get gl4es latest commit hash
         id: gl4es-sha
