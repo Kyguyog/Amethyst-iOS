@@ -35,11 +35,13 @@ jobs:
         with:
           submodules: false
 
-      - name: Checkout submodules safely
+      - name: Redirect and checkout submodules
         run: |
-          git config --global --unset-all http.https://github.com/.extraheader || true
-          git config --global --unset-all url.https://github.com/.insteadOf || true
-          git config --global credential.helper ""
+          # Override broken/private submodule URLs with public alternatives/mirrors
+          git config submodule.Natives/external/fishhook.url "https://github.com/facebook/fishhook.git"
+          git config submodule.Natives/external/DBNumberedSlider.url "https://github.com/immago/DBNumberedSlider.git"
+          
+          git submodule sync --recursive
           git submodule update --init --recursive
 
       - name: Get gl4es latest commit hash
