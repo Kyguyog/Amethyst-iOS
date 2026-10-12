@@ -35,9 +35,11 @@ jobs:
         with:
           submodules: false
 
-      - name: Checkout submodules without token interference
+      - name: Checkout submodules safely
         run: |
           git config --global --unset-all http.https://github.com/.extraheader || true
+          git config --global --unset-all url.https://github.com/.insteadOf || true
+          git config --global credential.helper ""
           git submodule update --init --recursive
 
       - name: Get gl4es latest commit hash
