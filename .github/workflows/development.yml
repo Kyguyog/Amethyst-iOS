@@ -10,6 +10,9 @@ on:
       - 'l10n_main'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Development build
@@ -147,3 +150,16 @@ jobs:
         with:
           name: AngelAuraAmethyst.dSYM
           path: artifacts/AngelAuraAmethyst.dSYM
+
+      - name: Publish Nightly Release
+        if: github.event_name != 'pull_request' && github.ref_name == 'main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: "Nightly Build"
+          body: "Automated nightly build built from commit ${{ github.sha }}."
+          prerelease: true
+          files: |
+            artifacts/*.ipa
+            artifacts/*.tipa
+            artifacts/*.dSYM
